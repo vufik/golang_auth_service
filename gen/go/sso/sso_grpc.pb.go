@@ -29,7 +29,7 @@ const (
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type AuthClient interface {
 	Register(ctx context.Context, in *RegisterRequest, opts ...grpc.CallOption) (*RegisterResponse, error)
-	Login(ctx context.Context, in *LoginRequest, opts ...grpc.CallOption) (*LoginRequest, error)
+	Login(ctx context.Context, in *LoginRequest, opts ...grpc.CallOption) (*LoginResponce, error)
 	IsAmdin(ctx context.Context, in *IsAdminRequest, opts ...grpc.CallOption) (*IsAdminResponce, error)
 }
 
@@ -51,9 +51,9 @@ func (c *authClient) Register(ctx context.Context, in *RegisterRequest, opts ...
 	return out, nil
 }
 
-func (c *authClient) Login(ctx context.Context, in *LoginRequest, opts ...grpc.CallOption) (*LoginRequest, error) {
+func (c *authClient) Login(ctx context.Context, in *LoginRequest, opts ...grpc.CallOption) (*LoginResponce, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(LoginRequest)
+	out := new(LoginResponce)
 	err := c.cc.Invoke(ctx, Auth_Login_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
@@ -76,7 +76,7 @@ func (c *authClient) IsAmdin(ctx context.Context, in *IsAdminRequest, opts ...gr
 // for forward compatibility.
 type AuthServer interface {
 	Register(context.Context, *RegisterRequest) (*RegisterResponse, error)
-	Login(context.Context, *LoginRequest) (*LoginRequest, error)
+	Login(context.Context, *LoginRequest) (*LoginResponce, error)
 	IsAmdin(context.Context, *IsAdminRequest) (*IsAdminResponce, error)
 	mustEmbedUnimplementedAuthServer()
 }
@@ -91,7 +91,7 @@ type UnimplementedAuthServer struct{}
 func (UnimplementedAuthServer) Register(context.Context, *RegisterRequest) (*RegisterResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Register not implemented")
 }
-func (UnimplementedAuthServer) Login(context.Context, *LoginRequest) (*LoginRequest, error) {
+func (UnimplementedAuthServer) Login(context.Context, *LoginRequest) (*LoginResponce, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Login not implemented")
 }
 func (UnimplementedAuthServer) IsAmdin(context.Context, *IsAdminRequest) (*IsAdminResponce, error) {

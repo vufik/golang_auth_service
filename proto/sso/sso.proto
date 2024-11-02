@@ -6,7 +6,7 @@ option go_package = "vufik.sso.v1;ssov1";
 
 service Auth{
     rpc Register (RegisterRequest) returns (RegisterResponse);
-    rpc Login (LoginRequest) returns (LoginRequest);
+    rpc Login (LoginRequest) returns (LoginResponce);
     rpc IsAmdin (IsAdminRequest) returns (IsAdminResponce);
 }
 
