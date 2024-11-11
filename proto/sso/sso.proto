@@ -2,6 +2,7 @@ syntax = "proto3";
 
 package auth;
 //коммент
+//и еще один
 option go_package = "vufik.sso.v1;ssov1";
 
 service Auth{
